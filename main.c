@@ -3,8 +3,7 @@
 void menu(){
     int opcao;
 
-    do
-    {
+    do{
         printf("\nC-PARK");
         printf("\n\n\n\n");
         printf("1. Informar entrada de veiculo\n");
