@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 void menu(){
     int opcao;
 
