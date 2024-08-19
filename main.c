@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <Windows.h>
 
+int quantidadeCarro = 0;
+
+void opcao1(void);
+
 void menu(){
     int opcao;
 
@@ -24,7 +28,7 @@ void menu(){
             opcao2();
             break;
         case 3:
-            printf("entrou no 3 \n\n");
+            opcao3();
             break;
         case 4:
             opcao4();
@@ -41,7 +45,7 @@ void menu(){
 void opcao1(){
 	int i = 1;
 	
-	if(i == 10){
+	if(quantidadeCarro == 10){
 		printf("Estacionamento esta cheio");
 		return 1;
 	}else{
@@ -49,12 +53,16 @@ void opcao1(){
 		printf("Veiculo ja pode estacionar");
 		Sleep(2000);
 		system("cls");
-		i++;
+		quantidadeCarro++;
 		return 1;
 	}	
 }
 
 void entradaVeiculo() {
+	FILE *arq;
+	
+	arq = fopen("teste.txt", "w");
+	
     char placa[8];
     char motorista[30];
     char marca[30];
@@ -65,6 +73,7 @@ void entradaVeiculo() {
     do {
         flag = 0;
         printf("Informe a placa: ");
+        fflush(stdin); //limpa o buffer do teclado
         scanf("%s", placa);
         
         flag = conferePlaca(placa);
@@ -72,17 +81,33 @@ void entradaVeiculo() {
     } while (flag == 1);
     
     printf("Informe o nome do motorista: ");
-    scanf("%s", motorista);
-    
+    fflush(stdin);
+	scanf("%s", motorista);
+       
     printf("Informe a marca do carro: ");
+    fflush(stdin);
     scanf("%s", marca);
     
     printf("Informe o modelo do carro: ");
+    fflush(stdin);
     scanf("%s", modelo);
     
     printf("Informe o horario de entrada do carro: ");
+    fflush(stdin);
     scanf("%s", horarioEntrada);
     
+    fputs(placa, arq);
+    fputs(" ", arq);
+    fputs(motorista, arq);
+    fputs(" ", arq);
+    fputs(marca, arq);
+    fputs(" ", arq);
+    fputs(modelo, arq);
+    fputs(" ", arq);
+    fputs(horarioEntrada, arq);
+    fputs("\n", arq);
+    
+    fclose(arq);
 }
 
 int conferePlaca(char placa[]) {
@@ -129,10 +154,35 @@ void opcao2(){
 		printf("veiculo ja pode sair");
 		Sleep(2000);
 		system("cls");
-		i--;
+		quantidadeCarro--;
 	}else{
 		printf("Veiculo nao esta no estacionamento");
 	}
+	
+	
+}
+
+void opcao3(){
+	FILE *arq;
+	char dadosVeiculo[105];
+	
+	arq = fopen("teste.txt", "r");
+	
+	if (arq == NULL){
+     printf("Nao ha dados!");
+    }else{
+        while (!feof(arq)){ //representa final de arquivo.
+          fgets(dadosVeiculo, 105, arq);
+          printf("%s", dadosVeiculo);
+        }
+    }
+	
+	fclose(arq);
+	
+	printf("\nquantidade estacionada %d", quantidadeCarro);
+	
+	Sleep(5000);
+	system("cls");
 }
 
 void opcao4(){
