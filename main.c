@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 int quantidadeCarro = 0;
+float valor;
 
 void opcao1(void);
 
@@ -186,15 +187,27 @@ void opcao3(){
 }
 
 void opcao4(){
-	float valor;
+	char user[5];
+	int senha = 0;
 	
-	printf("valor atual e %.2f\n", valor);
-	printf("Qual sera o novo valor? ");
-	scanf("%f", &valor);
+	printf("Faca login para alterar o valor\n");
 	
-	printf("Valor atualizado para %.2f", valor);
-	Sleep(2000);
-	system("cls");
+	printf("User:"); scanf("%s", user);
+	printf("Senha:"); scanf("%d", &senha);
+	
+	int cod = strcmp(user, "adm");
+	
+	if(cod == 0 && senha == 123){
+		printf("valor atual e %.2f\n", valor);
+		printf("Qual sera o novo valor? ");
+		scanf("%f", &valor);
+	
+		printf("Valor atualizado para %.2f", valor);
+		Sleep(2000);
+		system("cls");
+	}else{
+		printf("Usuario ou senha nao encontrado");
+	}
 }
 
 main(){
