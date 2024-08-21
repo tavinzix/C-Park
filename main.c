@@ -62,12 +62,12 @@ void opcao1(){
 void entradaVeiculo() {
 	FILE *arq;
 	
-	arq = fopen("teste.txt", "w");
+	arq = fopen("teste.txt", "a");
 	
     char placa[8];
-    char motorista[30];
-    char marca[30];
-    char modelo[30];
+    char motorista[15];
+    char marca[15];
+    char modelo[15];
     char horarioEntrada[6];
     int flag;
     
@@ -81,7 +81,7 @@ void entradaVeiculo() {
         
     } while (flag == 1);
     
-    printf("Informe o nome do motorista: ");
+    printf("Informe o primeiro nome do motorista: ");
     fflush(stdin);
 	scanf("%s", motorista);
        
@@ -166,15 +166,32 @@ void opcao2(){
 void opcao3(){
 	FILE *arq;
 	char dadosVeiculo[105];
+	int c = 1;
 	
-	arq = fopen("teste.txt", "r");
+	arq = fopen("teste.txt", "a+");
 	
 	if (arq == NULL){
-     printf("Nao ha dados!");
+    	printf("Nao ha dados!");
     }else{
         while (!feof(arq)){ //representa final de arquivo.
-          fgets(dadosVeiculo, 105, arq);
-          printf("%s", dadosVeiculo);
+          fgets(dadosVeiculo, 50, arq);
+     if(dadosVeiculo != NULL ){
+     		if(strlen(dadosVeiculo) > 1){
+     			printf("%d      ", c);
+			c++;
+			printf("%s", dadosVeiculo);
+			printf("______________________________");
+			 }
+			 
+			
+			printf("%d\n", strlen(dadosVeiculo));
+          
+	 }else{
+	 	printf("______________________________");
+	 }
+	 
+	 
+	      
         }
     }
 	
@@ -182,8 +199,8 @@ void opcao3(){
 	
 	printf("\nquantidade estacionada %d", quantidadeCarro);
 	
-	Sleep(5000);
-	system("cls");
+	//Sleep(5000);
+	//system("cls");
 }
 
 void opcao4(){
