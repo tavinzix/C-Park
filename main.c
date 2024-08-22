@@ -20,8 +20,7 @@ void menu(){
         scanf("%d", &opcao);
         system("cls");
 
-        switch (opcao)
-        {
+        switch (opcao){
         case 1:
             opcao1();
             break;
@@ -64,51 +63,49 @@ void entradaVeiculo() {
 	
 	arq = fopen("veiculos.txt", "a");
 	
-    char placa[8];
-    char motorista[15];
-    char marca[15];
-    char modelo[15];
-    char horarioEntrada[6];
-    int flag;
+	char placa[8];
+	char motorista[15];
+	char marca[15];
+	char modelo[15];
+	char horarioEntrada[6];
+	int flag;
     
-    do {
-        flag = 0;
-        printf("Informe a placa: ");
-        fflush(stdin); //limpa o buffer do teclado
-        scanf("%s", placa);
-        
-        flag = conferePlaca(placa);
-        
+	do {
+	        flag = 0;
+	        printf("Informe a placa: ");
+	        fflush(stdin); //limpa o buffer do teclado
+	        scanf("%s", placa);
+        	flag = conferePlaca(placa);
     } while (flag == 1);
     
-    printf("Informe o primeiro nome do motorista: ");
-    fflush(stdin);
+	printf("Informe o primeiro nome do motorista: ");
+	fflush(stdin);
 	scanf("%s", motorista);
        
-    printf("Informe a marca do carro: ");
-    fflush(stdin);
-    scanf("%s", marca);
+	printf("Informe a marca do carro: ");
+    	fflush(stdin);
+    	scanf("%s", marca);
     
-    printf("Informe o modelo do carro: ");
-    fflush(stdin);
-    scanf("%s", modelo);
+	printf("Informe o modelo do carro: ");
+	fflush(stdin);
+	scanf("%s", modelo);
     
-    printf("Informe o horario de entrada do carro: ");
-    fflush(stdin);
-    scanf("%s", horarioEntrada);
+	printf("Informe o horario de entrada do carro: ");
+	fflush(stdin);
+	scanf("%s", horarioEntrada);
     
-    fputs("\n", arq);
-    fputs(placa, arq);
-    fputs(" ", arq);
-    fputs(motorista, arq);
-    fputs(" ", arq);
-    fputs(marca, arq);
-    fputs(" ", arq);
-    fputs(modelo, arq);
-    fputs(" ", arq);
-    fputs(horarioEntrada, arq);
+	fputs("\n", arq);
+	fputs(placa, arq);
+	fputs(" ", arq);
+	fputs(motorista, arq);
+	fputs(" ", arq);
+	fputs(marca, arq);
+	fputs(" ", arq);
+	fputs(modelo, arq);
+	fputs(" ", arq);
+	fputs(horarioEntrada, arq);
    	
-    fclose(arq);
+	fclose(arq);
 }
 
 int conferePlaca(char placa[]) {
@@ -127,7 +124,6 @@ int conferePlaca(char placa[]) {
     for (int i = 0; i < 7; i++) {
         placa[i] = toupper(placa[i]);  
     }
-
     return flag;
 }
 
@@ -141,51 +137,52 @@ void opcao2(){
 	char dadosVeiculo[105];
 	
 	do {
-        flag = 0;
-        printf("Informe a placa: ");
-        scanf("%s", placa);
+       		flag = 0;
+        	printf("Informe a placa: ");
+        	scanf("%s", placa);
         
-        flag = conferePlaca(placa);
+        	flag = conferePlaca(placa);
         
-    } while (flag == 1);
-    
-    arq = fopen("veiculos.txt", "r+");
-    arqTemp = fopen("temp.txt", "w");
+    	} while (flag == 1);
+	
+	arq = fopen("veiculos.txt", "r+");
+    	arqTemp = fopen("temp.txt", "w");
 	
 	if (arq == NULL){
-    	printf("Nao ha dados!");
-    }else{
+    		printf("Nao ha dados!");
+    	}else{
 		while (fgets(dadosVeiculo, 150, arq) != NULL) {
         
-	        dadosVeiculo[strcspn(dadosVeiculo, "\n")] = 0; //tira o \n do final da linha
+	        	dadosVeiculo[strcspn(dadosVeiculo, "\n")] = 0; //tira o \n do final da linha
 			flagPlaca = 0;
 		
-	        if (strlen(dadosVeiculo) > 0) {
-	            if (strncmp(dadosVeiculo, placa, 7) == 0) {
-	                flagPlaca = 1;
+	        	if (strlen(dadosVeiculo) > 0) {
+	            		if (strncmp(dadosVeiculo, placa, 7) == 0) {
+	                		flagPlaca = 1;
 	                
-	                printf("Informe o horario de saida do carro: ");
-			    	scanf("%s", horarioSaida);
+	               			printf("Informe o horario de saida do carro: ");
+			    		scanf("%s", horarioSaida);
 					
 					//valorTotal = (horarioSaida - horarioEntrada)*valorHora;
 					
 					printf("veiculo ja pode sair");
 					Sleep(2000);
 					system("cls");
-	                
-	                continue; 
-	            }
-	        }
-	    fputs("\n", arqTemp);
-        fputs(dadosVeiculo, arqTemp);
-    }
-	    if (!flagPlaca) {
-	        printf("Esse veiculo nao esta no estacionamento\n");
-	        Sleep(2000);
-			system("cls");
-	    }   
+	               			continue; 
+	            		}
+	        	}
+	    		
+			fputs("\n", arqTemp);
+        		fputs(dadosVeiculo, arqTemp);
+    		}
+		    if (!flagPlaca) {
+				printf("Esse veiculo nao esta no estacionamento\n");
+		        	Sleep(2000);
+				system("cls");
+		    }   
 	}
-        fclose(arq);
+        
+	fclose(arq);
         fclose(arqTemp);
         
         remove("veiculos.txt");
@@ -199,17 +196,17 @@ void opcao3(){
 	arq = fopen("veiculos.txt", "a+");
 	
 	if (arq == NULL){
-    	printf("Nao ha dados!");
-    }else{
-        while (!feof(arq)){ //representa final de arquivo.
-        	fgets(dadosVeiculo, 105, arq);
-		    if(dadosVeiculo != NULL ){
-		    	if(strlen(dadosVeiculo) > 1){
+    		printf("Nao ha dados!");
+    	}else{
+        	while (!feof(arq)){ //representa final de arquivo.
+        		fgets(dadosVeiculo, 105, arq);
+		    	if(dadosVeiculo != NULL ){
+		    		if(strlen(dadosVeiculo) > 1){
 					printf("   %s", dadosVeiculo);
 				 }       
 			 }	    
-        }
-    }
+        	}
+    	}
 	
 	fclose(arq);
 	Sleep(5000);
@@ -221,7 +218,6 @@ void opcao4(){
 	int senha = 0;
 	
 	printf("Faca login para alterar o valor\n");
-	
 	printf("User:"); scanf("%s", user);
 	printf("Senha:"); scanf("%d", &senha);
 	
@@ -231,7 +227,6 @@ void opcao4(){
 		printf("valor atual e %.2f\n", valor);
 		printf("Qual sera o novo valor? ");
 		scanf("%f", &valor);
-	
 		printf("Valor atualizado para %.2f", valor);
 		Sleep(2000);
 		system("cls");
