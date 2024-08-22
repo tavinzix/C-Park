@@ -62,7 +62,7 @@ void opcao1(){
 void entradaVeiculo() {
 	FILE *arq;
 	
-	arq = fopen("teste.txt", "a");
+	arq = fopen("veiculos.txt", "a");
 	
     char placa[8];
     char motorista[15];
@@ -97,6 +97,7 @@ void entradaVeiculo() {
     fflush(stdin);
     scanf("%s", horarioEntrada);
     
+    fputs("\n", arq);
     fputs(placa, arq);
     fputs(" ", arq);
     fputs(motorista, arq);
@@ -106,8 +107,7 @@ void entradaVeiculo() {
     fputs(modelo, arq);
     fputs(" ", arq);
     fputs(horarioEntrada, arq);
-    fputs("\n", arq);
-    
+   	
     fclose(arq);
 }
 
@@ -132,10 +132,13 @@ int conferePlaca(char placa[]) {
 }
 
 void opcao2(){
-	char placa[8];
+	FILE *arq,*arqTemp;
+  
+  	char placa[8];
 	char horarioSaida[6];
-	int flag, i;
+	int flag, flagPlaca;
 	int valorTotal = 0;
+	char dadosVeiculo[105];
 	
 	do {
         flag = 0;
@@ -145,62 +148,72 @@ void opcao2(){
         flag = conferePlaca(placa);
         
     } while (flag == 1);
+    
+    arq = fopen("veiculos.txt", "r+");
+    arqTemp = fopen("temp.txt", "w");
 	
-	if(placa == placa){
-		printf("Informe o horario de saida do carro: ");
-    	scanf("%s", horarioSaida);
+	if (arq == NULL){
+    	printf("Nao ha dados!");
+    }else{
+		while (fgets(dadosVeiculo, 150, arq) != NULL) {
+        
+	        dadosVeiculo[strcspn(dadosVeiculo, "\n")] = 0; //tira o \n do final da linha
+			flagPlaca = 0;
 		
-		//valorTotal = (horarioSaida - horarioEntrada)*valorHora;
-		
-		printf("veiculo ja pode sair");
-		Sleep(2000);
-		system("cls");
-		quantidadeCarro--;
-	}else{
-		printf("Veiculo nao esta no estacionamento");
+	        if (strlen(dadosVeiculo) > 0) {
+	            if (strncmp(dadosVeiculo, placa, 7) == 0) {
+	                flagPlaca = 1;
+	                
+	                printf("Informe o horario de saida do carro: ");
+			    	scanf("%s", horarioSaida);
+					
+					//valorTotal = (horarioSaida - horarioEntrada)*valorHora;
+					
+					printf("veiculo ja pode sair");
+					Sleep(2000);
+					system("cls");
+	                
+	                continue; 
+	            }
+	        }
+	    fputs("\n", arqTemp);
+        fputs(dadosVeiculo, arqTemp);
+    }
+	    if (!flagPlaca) {
+	        printf("Esse veiculo nao esta no estacionamento\n");
+	        Sleep(2000);
+			system("cls");
+	    }   
 	}
-	
-	
+        fclose(arq);
+        fclose(arqTemp);
+        
+        remove("veiculos.txt");
+        rename("temp.txt", "veiculos.txt");
 }
-
+	
 void opcao3(){
 	FILE *arq;
 	char dadosVeiculo[105];
-	int c = 1;
 	
-	arq = fopen("teste.txt", "a+");
+	arq = fopen("veiculos.txt", "a+");
 	
 	if (arq == NULL){
     	printf("Nao ha dados!");
     }else{
         while (!feof(arq)){ //representa final de arquivo.
-          fgets(dadosVeiculo, 50, arq);
-     if(dadosVeiculo != NULL ){
-     		if(strlen(dadosVeiculo) > 1){
-     			printf("%d      ", c);
-			c++;
-			printf("%s", dadosVeiculo);
-			printf("______________________________");
-			 }
-			 
-			
-			printf("%d\n", strlen(dadosVeiculo));
-          
-	 }else{
-	 	printf("______________________________");
-	 }
-	 
-	 
-	      
+        	fgets(dadosVeiculo, 105, arq);
+		    if(dadosVeiculo != NULL ){
+		    	if(strlen(dadosVeiculo) > 1){
+					printf("   %s", dadosVeiculo);
+				 }       
+			 }	    
         }
     }
 	
 	fclose(arq);
-	
-	printf("\nquantidade estacionada %d", quantidadeCarro);
-	
-	//Sleep(5000);
-	//system("cls");
+	Sleep(5000);
+	system("cls");
 }
 
 void opcao4(){
