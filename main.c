@@ -167,7 +167,7 @@ void opcao2(){
 	                printf("Informe o horario de saida do carro: ");
 			    	scanf("%s", horarioSaida);
 					
-					char *separador = strtok(dadosVeiculo, " \t\n");
+					char *separador = strtok(dadosVeiculo, " ");
 					char *horaEntrada = separador;
 					
 					while (separador != NULL) {
