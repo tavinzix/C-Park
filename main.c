@@ -2,7 +2,6 @@
 #include <Windows.h>
 
 int quantidadeCarro = 0;
-float valor;
 
 void opcao1(void);
 
@@ -132,13 +131,15 @@ int conferePlaca(char placa[]) {
 }
 
 void opcao2(){
-	FILE *arq,*arqTemp;
+	FILE *arq, *arqTemp, *val;
   
   	char placa[8];
 	char horarioSaida[6];
 	int flag, flagPlaca;
 	int valorTotal = 0;
 	char dadosVeiculo[105];
+	int horaEnt,minEnt,horaSai, minSai,tminEnt,tminSai,T_total;
+	char leituraValor[10];
 	
 	do {
         flag = 0;
@@ -151,6 +152,7 @@ void opcao2(){
     
     arq = fopen("veiculos.txt", "r+");
     arqTemp = fopen("temp.txt", "w");
+    val = fopen("valor.txt", "r");
 	
 	if (arq == NULL){
     	printf("Nao ha dados!");
@@ -166,23 +168,26 @@ void opcao2(){
 	                
 	                printf("Informe o horario de saida do carro: ");
 			    	scanf("%s", horarioSaida);
-					
+					getc(stdin);
+
 					char *separador = strtok(dadosVeiculo, " ");
 					char *horaEntrada = separador;
 					
 					while (separador != NULL) {
 						horaEntrada = separador;
-						separador = strtok(NULL, " \t\n");
+						separador = strtok(NULL, " ");
 					}
 										
 					int hE = atoi(horaEntrada);
-					int hS = atoi(horarioSaida);
-
-					int valorTotal = hS - hE;
-
-					valorTotal = (hS - hE);
-					
-					printf("Horario estacionado: %s\n", valorTotal);
+					int hS = atoi(horarioSaida);	
+					float v2 = atoi(fgets(leituraValor, 10, val));
+										
+					float horaFinal = hS - hE;					
+					float valorTotal = (hS - hE)*v2;
+										
+					printf("Horario estacionado: %f\n", horaFinal);
+					printf("Valor R$: %f\n", v2);
+					printf("Valor final R$: %f\n", valorTotal);
 					
 					printf("veiculo ja pode sair");
 					Sleep(2000);
@@ -231,8 +236,11 @@ void opcao3(){
 }
 
 void opcao4(){
+	FILE *val;
+	val = fopen("valor.txt", "w+");
 	char user[5];
 	int senha = 0;
+	char valor[5];
 	
 	printf("Faca login para alterar o valor\n");
 	
@@ -242,13 +250,19 @@ void opcao4(){
 	int cod = strcmp(user, "adm");
 	
 	if(cod == 0 && senha == 123){
-		printf("valor atual e %.2f\n", valor);
 		printf("Qual sera o novo valor? ");
-		scanf("%f", &valor);
-	
-		printf("Valor atualizado para %.2f", valor);
-		Sleep(2000);
+		scanf("%s", valor);
+	    fflush(stdin);
+	    fputs(valor, val);
+	    fclose(val);
+	    
+	    float valor2 = atoi(valor);
+	    	
+	   	printf("Valor atualizado para %.2f", valor2);
+	   	
+	   	Sleep(2000);
 		system("cls");
+		
 	}else{
 		printf("Usuario ou senha nao encontrado");
 	}
