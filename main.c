@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <Windows.h>
 
-int quantidadeCarro = 0;
-
 void opcao1(void);
 
 void menu(){
@@ -43,19 +41,11 @@ void menu(){
 }
 
 void opcao1(){
-	int i = 1;
-	
-	if(quantidadeCarro == 10){
-		printf("Estacionamento esta cheio");
-		return 1;
-	}else{
 		entradaVeiculo();
 		printf("Veiculo ja pode estacionar");
 		Sleep(2000);
 		system("cls");
-		quantidadeCarro++;
 		return 1;
-	}	
 }
 
 void entradaVeiculo() {
@@ -138,7 +128,7 @@ void opcao2(){
 	int flag, flagPlaca;
 	int valorTotal = 0;
 	char dadosVeiculo[105];
-	int horaEnt,minEnt,horaSai, minSai,tminEnt,tminSai,T_total;
+	int horaEnt;
 	char leituraValor[10];
 	
 	do {
@@ -185,9 +175,9 @@ void opcao2(){
 					float horaFinal = hS - hE;					
 					float valorTotal = (hS - hE)*v2;
 										
-					printf("Horario estacionado: %f\n", horaFinal);
-					printf("Valor R$: %f\n", v2);
-					printf("Valor final R$: %f\n", valorTotal);
+					printf("Tempo na garagem: %f\n", horaFinal);
+					printf("Valor R$: %.2f\n", v2);
+					printf("Valor final R$: %.2f\n", valorTotal);
 					
 					printf("veiculo ja pode sair");
 					Sleep(2000);
